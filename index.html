@@ -13,6 +13,7 @@
 
 </head>
 <body onload="generateSentence()">
+        <span id="timeout"></span>
 	<div id="outputSentence"></div>
 	<span id="copyright">With <span id="hearth">&hearts;</span> by Lysander Brieger</span>
 
@@ -30,6 +31,8 @@
 		if (isNaN(Math.round(getTimeout)) == false && typeof(Math.round(getTimeout)) == "number" && Math.round(getTimeout)>=5000) {
 			timeout = Math.round(getTimeout);
 		}
+
+                var timoutDisplayVar = timeout/1000;
 
 		const api_url = "https://api.quotable.io/random?maxLength="+maxLengthSentence;
 
@@ -89,9 +92,14 @@
 			}
 		}
 
+                function timeoutDisplay() {
+                         if (timeoutDisplayVar > 0) {timeoutDisplayVar--; document.getElementById("timeout").innerHTML=timeoutDisplayVar} else {timeoutDisplayVar = timeout/1000; document.getElementById("timeout").innerHTML=timeoutDisplayVar}
+                }
+
 		generateSentence();
 		*/
 		flashRed();
+                const timeoutViewer = setInterval(timeoutDisplay(), 1000);
 		const generationInterval = setInterval(() => {flashRed(); generateSentence()}, timeout);
 	</script>
 
