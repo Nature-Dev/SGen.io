@@ -1,0 +1,36 @@
+html,body{
+	font-family: sans-serif;
+	text-align: center;
+	background-color: black;
+}
+
+#copyright {
+	color: rgba(209, 71, 117, 0.8);
+	font-weight: bold;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	margin-bottom: 2%;
+}
+
+#hearth {
+	color: #d14775;
+	font-weight: bold;
+}
+
+#outputSentence {
+	font-family: 'Patrick Hand', sans-serif;
+	font-size: 50px;
+	font-weight: bold;
+	width: 85%;
+	color: beige;
+	margin: 0;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>SGen - Sentence Generator</title>
+	<script src="https://cdn.jsdelivr.net/npm/chance/dist/chance.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="master.css">
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Cantarell&display=swap" rel="stylesheet"> 
+
+</head>
+<body onload="generateSentence()">
+	<div id="outputSentence"></div>
+	<span id="copyright">With <span id="hearth">&hearts;</span> by Lysander Brieger</span>
+
+	<script type="text/javascript">
+		var maxLengthSentence = 50;
+		var typingSpeed = 50;
+		var sentence = "";
+		var i=0;
+		const generationMethod = "language";
+		var timeout = 10000;
+
+		const queryString = window.location.search;
+		const urlParams = new URLSearchParams(queryString);
+		const getTimeout = urlParams.get("timeout");
+		if (isNaN(Math.round(getTimeout)) == false && typeof(Math.round(getTimeout)) == "number" && Math.round(getTimeout)>=5000) {
+			timeout = Math.round(getTimeout);
+		}
+
+		const api_url = "https://api.quotable.io/random?maxLength="+maxLengthSentence;
+
+		function generateSentence() {
+
+			/*
+			if (generationMethod=="pseudo") {
+				var chance = new Chance();
+
+				sentence = chance.sentence({words: chance.integer({min:3,max:8})});
+				
+			}
+			*/
+
+			if (generationMethod=="language") {
+				console.log("Generating language")
+				fetch(api_url)
+					.then(response => response.json())
+					.then(data => {
+						document.getElementById("outputSentence").innerHTML = "";
+						const output = document.getElementById("outputSentence");
+						let sentence = data.content;
+
+						console.log(sentence)
+
+						let index=0;
+						document.getElementById("outputSentence").style.color = "beige";
+
+						function typeWriter () {
+							if (index < sentence.length) {
+								output.innerHTML += sentence.charAt(index);
+								index++;
+								setTimeout(typeWriter, 50);
+							}
+						}
+						typeWriter();
+					})
+					.catch(err => console.error(err));
+			}
+		}
+
+		function flashRed() {
+			var flash = setTimeout(() => document.getElementById("outputSentence").style.color = "red", timeout-(timeout/8))
+
+		}
+		/*
+
+		function type() {
+			typeWriter();
+			function typeWriter() {
+				console.log("writing");
+				if (i < sentence.length) {
+					document.getElementById("outputSentence").innerHTML += sentence.charAt(i);
+					i++;
+					setTimeout(typeWriter, typingSpeed);
+				}
+			}
+		}
+
+		generateSentence();
+		*/
+		flashRed();
+		const generationInterval = setInterval(() => {flashRed(); generateSentence()}, timeout);
+	</script>
+
+</body>
+</html>
